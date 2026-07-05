@@ -376,7 +376,7 @@ body {
 .projects-grid {
   width: 100%;
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   align-items: stretch;
   flex-wrap: wrap;
   gap: 20px;
@@ -392,17 +392,16 @@ body {
 }
 
 .project-card {
-  width: 340px;
+  /* flex-basis replaces a fixed width so cards can shrink in a flex
+     container instead of overflowing on narrow screens */
+  flex: 1 1 340px;
+  max-width: 340px;
   background: var(--card);
   border: 1px solid rgba(191, 162, 117, 0.25);
   border-radius: var(--radius);
   padding: 18px;
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.09);
   transition: transform 0.18s ease;
-}
-
-.project-card:hover {
-  transform: translateY(-3px);
 }
 
 .project-card:hover {
@@ -429,7 +428,6 @@ body {
   opacity: 0.9;
 }
 
-
 .project-card p {
   color: var(--muted);
   font-size: 13.5px;
@@ -453,9 +451,13 @@ body {
   font-weight: 600;
 }
 
+/* .projects-grid is flex, so these breakpoints now resize the cards
+   themselves (via flex-basis / max-width) instead of using
+   grid-template-columns, which had no effect on a flex container */
 @media (max-width: 900px) {
-  .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .project-card {
+    flex: 1 1 calc(50% - 20px);
+    max-width: calc(50% - 20px);
   }
 }
 
@@ -467,15 +469,15 @@ body {
     width: 92vw;
     padding: 28px;
   }
-  .projects-grid {
-    grid-template-columns: 1fr;
+  .project-card {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
 
   .resume-kpis {
     grid-template-columns: 1fr;
   }
 }
-
 
 /* Contact */
 .contact {
@@ -493,7 +495,6 @@ body {
   padding: 12px 14px;
   border-radius: 16px;
 }
-
 
 .contact-panel {
   width: min(720px, 92vw);
@@ -540,5 +541,3 @@ body {
   color: #5c5c5c;
   font-size: 13px;
 }
-
-
